@@ -1,31 +1,40 @@
 pipeline {
     agent any
 
+    environment {
+        // Define variáveis se quiser
+    }
+
     stages {
-        stage('Clone Repository') {
+        stage('Limpar workspace') {
             steps {
-                // Clona seu repo
-                git 'https://github.com/FabioJordao97/puc-jenks.git'
+                echo 'Limpando o workspace atual...'
+                deleteDir()  // Limpa tudo no workspace antes do build
             }
         }
 
-        stage('Install Newman') {
+        stage('Clonar repositório') {
             steps {
-                bat 'npm install newman'
+                echo 'Clonando repositório...'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],  // ou '*/master' se for o nome do branch correto
+                    userRemoteConfigs: [[url: 'https://github.com/FabioJordao97/puc-jenks.git']]
+                ])
             }
         }
 
-        stage('List Workspace Files') {
+        stage('Instalar dependências') {
             steps {
-                // Para garantir que o arquivo está no workspace (debug)
-                bat 'dir /s /b'
+                echo 'Instalando dependências...'
+                bat 'npm install'
             }
         }
 
-        stage('Run Postman Collection') {
+        stage('Executar testes Postman') {
             steps {
-                // Rode o Newman com o caminho correto
-                bat 'node_modules\\.bin\\newman run postman-collections\\aula_2_puc.postman_collection.json'
+                echo 'Executando coleção Postman com Newman...'
+                bat 'node_modules\\.bin\\newman run aula_2_puc.postman_collection.json'
             }
         }
     }
@@ -33,6 +42,9 @@ pipeline {
     post {
         always {
             echo 'Pipeline finalizado.'
+        }
+        failure {
+            echo 'Pipeline falhou! Verifique os logs para detalhes.'
         }
     }
 }
