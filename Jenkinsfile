@@ -5,7 +5,7 @@ pipeline {
         stage('Limpar workspace') {
             steps {
                 echo 'Limpando o workspace atual...'
-                deleteDir()  // Remove arquivos do workspace
+                deleteDir() // Limpa arquivos do workspace
             }
         }
 
@@ -14,7 +14,7 @@ pipeline {
                 echo 'Clonando repositório do GitHub...'
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/main']],  // Troque para */master se for o caso
+                    branches: [[name: '*/main']], // Use '*/master' se o branch for master
                     userRemoteConfigs: [[url: 'https://github.com/FabioJordao97/puc-jenks.git']]
                 ])
             }
@@ -41,3 +41,6 @@ pipeline {
         }
         failure {
             echo 'Pipeline falhou! Verifique o console output.'
+        }
+    }
+}
