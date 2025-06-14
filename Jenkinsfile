@@ -7,9 +7,9 @@ pipeline {
                 git url: 'https://github.com/FabioJordao97/puc-jenks.git', branch: 'main'
             }
         }
-        stage('Listar arquivos') {
+        stage('Listar arquivos detalhado') {
             steps {
-                bat 'dir /s'
+                bat 'dir /s /b'
             }
         }
         stage('Instalar Newman') {
@@ -21,12 +21,6 @@ pipeline {
             steps {
                 bat 'node_modules\\.bin\\newman run aula_2_puc.postman_collection.json'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline finalizado.'
         }
     }
 }
