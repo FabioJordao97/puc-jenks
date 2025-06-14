@@ -2,21 +2,26 @@ pipeline {
     agent any
 
     stages {
-        stage('Clonar Repo') {
+        stage('Clonar Repositório') {
             steps {
                 git url: 'https://github.com/FabioJordao97/puc-jenks.git', branch: 'main'
             }
         }
         stage('Instalar Newman') {
             steps {
-                // no Windows, use 'bat' ao invés de 'sh'
-                bat 'npm install -g newman'
+                bat 'npm install newman'
             }
         }
-        stage('Rodar testes Postman') {
+        stage('Executar Testes Postman') {
             steps {
-                bat 'newman run collection.json'
+                bat 'node_modules\\.bin\\newman run collection.json'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finalizado.'
         }
     }
 }
