@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Listar arquivos no workspace') {
             steps {
-                bat 'dir /b'
+                bat 'dir /b /s'
             }
         }
         stage('Instalar Newman') {
@@ -28,6 +28,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             echo 'Pipeline finalizado.'
