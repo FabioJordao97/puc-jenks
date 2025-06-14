@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Listar arquivos') {
             steps {
-                bat 'dir'
+                bat 'dir /s'
             }
         }
         stage('Instalar Newman') {
