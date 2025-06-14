@@ -2,11 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('Limpar workspace') {
+            steps {
+                cleanWs()
+            }
+        }
         stage('Clonar Repositório') {
             steps {
-                // Limpa workspace antes de clonar (Windows)
-                bat 'rmdir /s /q . || echo "Workspace limpo"'
-                // Clona o repo
                 git branch: 'main', url: 'https://github.com/FabioJordao97/puc-jenks.git'
             }
         }
