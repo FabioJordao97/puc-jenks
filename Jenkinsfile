@@ -2,34 +2,34 @@ pipeline {
     agent any
 
     stages {
-        stage('Limpar workspace') {
+        stage('Clean Workspace') {
             steps {
                 cleanWs()
             }
         }
-        stage('Clonar Repositório') {
+        stage('Clone Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/FabioJordao97/puc-jenks.git'
             }
         }
-        stage('Listar arquivos no workspace') {
+        stage('Check Files') {
             steps {
+                echo "Listando arquivos pra garantir que a collection está aqui..."
                 bat 'dir /s /b'
             }
         }
-        stage('Instalar Newman') {
+        stage('Install Newman') {
             steps {
                 bat 'npm install newman'
             }
         }
-        stage('Executar Testes Postman') {
+        stage('Run Newman Tests') {
             steps {
-                // Ajuste aqui o caminho do arquivo conforme saída do dir
+                echo "Executando Newman na collection..."
                 bat 'node_modules\\.bin\\newman run aula_2_puc.postman_collection.json'
             }
         }
     }
-
     post {
         always {
             echo 'Pipeline finalizado.'
