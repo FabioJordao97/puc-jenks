@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Listar arquivos no workspace') {
             steps {
-                bat 'dir /b /s'
+                bat 'dir /s /b'
             }
         }
         stage('Instalar Newman') {
@@ -24,6 +24,7 @@ pipeline {
         }
         stage('Executar Testes Postman') {
             steps {
+                // Ajuste aqui o caminho do arquivo conforme saída do dir
                 bat 'node_modules\\.bin\\newman run aula_2_puc.postman_collection.json'
             }
         }
