@@ -4,27 +4,29 @@ pipeline {
     stages {
         stage('Clonar Repositório') {
             steps {
-                git url: 'https://github.com/FabioJordao97/puc-jenks.git', branch: 'main'
+                git branch: 'main', url: 'https://github.com/FabioJordao97/puc-jenks.git'
             }
         }
-        stage('Listar arquivos detalhado') {
-            steps {
-                bat 'dir /s /b'
-            }
-        }
+
         stage('Instalar Newman') {
             steps {
                 bat 'npm install newman'
             }
         }
+
+        stage('Listar Arquivos') {
+            steps {
+                bat 'dir /s /b'
+            }
+        }
+
         stage('Executar Testes Postman') {
             steps {
-                // Ajuste o nome do arquivo conforme o resultado da listagem, aqui é um exemplo genérico
+                // Ajuste o caminho e nome do arquivo conforme seu repositório
                 bat 'node_modules\\.bin\\newman run aula_2_puc.postman_collection.json'
             }
         }
     }
-
     post {
         always {
             echo 'Pipeline finalizado.'
