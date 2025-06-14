@@ -19,8 +19,15 @@ pipeline {
         }
         stage('Executar Testes Postman') {
             steps {
+                // Ajuste o nome do arquivo conforme o resultado da listagem, aqui é um exemplo genérico
                 bat 'node_modules\\.bin\\newman run aula_2_puc.postman_collection.json'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finalizado.'
         }
     }
 }
