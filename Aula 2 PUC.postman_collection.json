@@ -1,0 +1,953 @@
+{
+	"info": {
+		"_postman_id": "575ffd70-8f1f-4481-b085-1e4340e41c20",
+		"name": "Aula 2 PUC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13243261"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Add Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const product = pm.response.json();\r",
+									"pm.environment.set(\"productId\", product.id);\r",
+									"\r",
+									"pm.test(\"Validação da Resposta\", () => {\r",
+									"    const product = pm.response.json();\r",
+									"    pm.expect(product).to.have.property(\"id\");\r",
+									"    pm.expect(product).to.have.property(\"title\");\r",
+									"    pm.expect(product).to.have.property(\"price\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Testador Automizado 5000\",\r\n  \"price\": 0.1,\r\n  \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n  \"category\": \"Teste\",\r\n  \"image\": \"http://example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/products",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Após POST com dados inválidos:\r",
+									"pm.test(\"Status code é 200\", () => {\r",
+									"    pm.response.to.not.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Título do produto é string não vazia\", () => {\r",
+									"    const product = pm.response.json();\r",
+									"    pm.expect(product.title).to.be.a('string').and.to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Produto tem valor positivo\", () => {\r",
+									"    const product = pm.response.json();\r",
+									"    pm.expect(product.price).to.be.above(0)\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"\",\r\n  \"price\": -1,\r\n  \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n  \"category\": \"Teste\",\r\n  \"image\": \"http://example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/products",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const product = pm.response.json();\r",
+									"pm.environment.set(\"productId\", product.id);\r",
+									"\r",
+									"pm.test(\"Validação da Resposta\", () => {\r",
+									"    const product = pm.response.json();\r",
+									"    pm.expect(product).to.have.property(\"id\");\r",
+									"    pm.expect(product).to.have.property(\"title\");\r",
+									"    pm.expect(product).to.have.property(\"price\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Testador Automizado 5001\",\r\n  \"price\": 1.1,\r\n  \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n  \"category\": \"Teste\",\r\n  \"image\": \"http://example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/products/{{productId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"const product = pm.response.json();\r",
+									"pm.environment.set(\"productId\", product.id);\r",
+									"\r",
+									"pm.test(\"Validação da Resposta\", () => {\r",
+									"    const product = pm.response.json();\r",
+									"    pm.expect(product).to.not.have.property(\"id\");\r",
+									"    pm.expect(product).to.not.have.property(\"title\");\r",
+									"    pm.expect(product).to.not.have.property(\"price\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Testador Automizado 5001\",\r\n  \"price\": 1.1,\r\n  \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n  \"category\": \"Teste\",\r\n  \"test\": \"test\",\r\n  \"image\": \"http://example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/products/{{productId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const product = pm.response.json();\r",
+									"pm.environment.set(\"productId\", product.id);\r",
+									"\r",
+									"pm.test(\"Validação da Resposta\", () => {\r",
+									"    const product = pm.response.json();\r",
+									"    pm.expect(product).to.have.property(\"id\");\r",
+									"    pm.expect(product).to.have.property(\"title\");\r",
+									"    pm.expect(product).to.have.property(\"price\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fakestoreapi.com/products/1",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/products/{{productId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const cart = pm.response.json();\r",
+									"pm.environment.set(\"cartId\", cart.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validação da resposta do carrinho\", () => {\r",
+									"    pm.expect(cart).to.have.property(\"id\");\r",
+									"    pm.expect(cart).to.have.property(\"userId\");\r",
+									"    pm.expect(cart).to.have.property(\"products\");\r",
+									"    pm.expect(cart.products).to.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"userId\": 0,\r\n  \"products\": [\r\n    {\r\n    \"id\": 21,\r\n    \"title\": \"Testador Automizado 5000\",\r\n    \"price\": 0.1,\r\n    \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n    \"image\": \"http://example.com\",\r\n    \"category\": \"Teste\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/carts",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Cart Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is not 200\", () => {\r",
+									"    pm.response.to.not.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const cart = pm.response.json();\r",
+									"pm.environment.set(\"cartId\", cart.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validação da resposta do carrinho\", () => {\r",
+									"    pm.expect(cart).to.not.have.property(\"id\");\r",
+									"    pm.expect(cart).to.not.have.property(\"userId\");\r",
+									"    pm.expect(cart).to.not.have.property(\"products\");\r",
+									"    pm.expect(cart.products).to.not.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"userId\": 0,\r\n  \"date\": \"2024-12-31\",\r\n  \"products\": [\r\n    {\r\n    \"id\": 21,\r\n    \"title\": \"Testador Automizado 5000\",\r\n    \"price\": 0.1,\r\n    \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n    \"image\": \"http://example.com\",\r\n    \"category\": \"Teste\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/carts",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const cart = pm.response.json();\r",
+									"pm.environment.set(\"cartId\", cart.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validação da resposta do carrinho\", () => {\r",
+									"    pm.expect(cart).to.have.property(\"id\");\r",
+									"    pm.expect(cart).to.have.property(\"userId\");\r",
+									"    pm.expect(cart).to.have.property(\"products\");\r",
+									"    pm.expect(cart.products).to.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"userId\": 5,\r\n  \"products\": [\r\n    {\r\n    \"id\": 21,\r\n    \"title\": \"Testador Automizado 5000\",\r\n    \"price\": 0.1,\r\n    \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n    \"image\": \"http://example.com\",\r\n    \"category\": \"Teste\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/carts/{{cartId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const cart = pm.response.json();\r",
+									"pm.environment.set(\"cartId\", cart.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validação da resposta do carrinho\", () => {\r",
+									"    pm.expect(cart).to.have.property(\"id\");\r",
+									"    pm.expect(cart).to.have.property(\"userId\");\r",
+									"    pm.expect(cart).to.have.property(\"products\");\r",
+									"    pm.expect(cart.products).to.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"userId\": 5,\r\n  \"products\": [\r\n    {\r\n    \"id\": 21,\r\n    \"title\": \"Testador Automizado 5000\",\r\n    \"price\": 0.1,\r\n    \"description\": \"O melhor testador da história que testa tudo sem você pedir\",\r\n    \"image\": \"http://example.com\",\r\n    \"category\": \"Teste\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/carts/5",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"carts",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/carts/{{cartId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"carts",
+								"{{cartId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Add User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const user = pm.response.json();\r",
+									"pm.environment.set(\"userId\", user.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validação da resposta do usuário\", () => {\r",
+									"    pm.expect(user).to.have.property(\"id\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Tester\",\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/users",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", () => {\r",
+									"    pm.response.to.not.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const user = pm.response.json();\r",
+									"pm.environment.set(\"userId\", user.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validação da resposta do usuário\", () => {\r",
+									"    pm.expect(user).to.not.have.property(\"id\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": -1,\r\n  \"email\": \"\",\r\n  \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/users",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verifica o código de status da resposta\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const user = pm.response.json();\r",
+									"pm.environment.set(\"userId\", user.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validação da resposta do usuário\", () => {\r",
+									"    pm.expect(user).to.have.property(\"user\");\r",
+									"    pm.expect(user).to.have.property(\"email\");\r",
+									"    pm.expect(user).to.have.property(\"password\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"O maior testador da história\",\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/users/{{userId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/users/{{userId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/users/{{userId}}",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const login = pm.response.json();\r",
+									"pm.environment.set(\"authToken\", login.token);\r",
+									"\r",
+									"pm.test(\"Validação da resposta do usuário\", () => {\r",
+									"    pm.expect(login).to.have.property(\"token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"johnd\",\r\n  \"password\": \"m38rmF$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/auth/login",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Tester\",\r\n  \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fakestoreapi.com/auth/login",
+							"protocol": "https",
+							"host": [
+								"fakestoreapi",
+								"com"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
