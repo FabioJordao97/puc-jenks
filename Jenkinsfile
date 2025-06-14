@@ -1,24 +1,20 @@
 pipeline {
     agent any
 
-    environment {
-        // Define variáveis se quiser
-    }
-
     stages {
         stage('Limpar workspace') {
             steps {
                 echo 'Limpando o workspace atual...'
-                deleteDir()  // Limpa tudo no workspace antes do build
+                deleteDir()  // Remove arquivos do workspace
             }
         }
 
         stage('Clonar repositório') {
             steps {
-                echo 'Clonando repositório...'
+                echo 'Clonando repositório do GitHub...'
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/main']],  // ou '*/master' se for o nome do branch correto
+                    branches: [[name: '*/main']],  // Troque para */master se for o caso
                     userRemoteConfigs: [[url: 'https://github.com/FabioJordao97/puc-jenks.git']]
                 ])
             }
@@ -26,7 +22,7 @@ pipeline {
 
         stage('Instalar dependências') {
             steps {
-                echo 'Instalando dependências...'
+                echo 'Instalando pacotes com npm...'
                 bat 'npm install'
             }
         }
@@ -44,7 +40,4 @@ pipeline {
             echo 'Pipeline finalizado.'
         }
         failure {
-            echo 'Pipeline falhou! Verifique os logs para detalhes.'
-        }
-    }
-}
+            echo 'Pipeline falhou! Verifique o console output.'
